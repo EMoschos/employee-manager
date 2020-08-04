@@ -1,6 +1,8 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
+const insertSQL = require("./SQLqueries/insertSQL");
+const selectSQL = require("./SQLqueries/selectSQL");
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -16,15 +18,17 @@ const connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    connection.query("SELECT * FROM employee", function (err, res) {
-        if (err) throw err;
-        console.log(res);
-        cmsStart();
-    });
+    selectSQL.viewAllEmployees();
+    cmsStart();
+    
 });
 
 //Testing to see how to get info to show in inquirer
 function cmsStart() {
+    console.log(`
+    ---------------------------
+    |     CMS FOR MANAGERS    |
+    ---------------------------`)
     var select = connection.query(
         "SELECT name FROM department",
         function (err, res) {
@@ -53,16 +57,8 @@ function cmsStart() {
                     message: "What department will the employee work in?"
                 }
             ]).then(function (response) {
-                connection.query(
-                    "INSERT INTO department SET ?",
-                    {
-                        name: response.depart,
-                    },
-                    function (err, res) {
-                        if (err) throw err;
-                        console.log("New department Added");
-                    }
-                );
+                insertSQL.addDepart(response);
+
                 connection.query(
                     "INSERT INTO role SET ?",
                     {
@@ -88,5 +84,6 @@ function cmsStart() {
             })
         }
     );
-    
+
 }
+

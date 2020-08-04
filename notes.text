@@ -1,0 +1,47 @@
+* Notes
+    * Architect and build a solution for managing a company's employees using node, inquirer, and MySQL.
+    * "department" table needs to be created first (WHY?)
+    * "role" needs to be the second one to be created
+    * "employee" table needs to be the last one to be created
+    * Use "console.table" to print the results
+        * "npm install console.table --save" to better table format
+    * You may wish to have a separate file containing functions for performing specific SQL queries you'll need to use. Could a constructor function or a class be helpful for organizing these?
+    * Create "seed.sql"
+* Tasks
+    1. Implement Database
+        * Create "department" table
+        * Create "role" table
+        * Create "employee" table
+        * Generate the "schema.sql"
+        * Implement the "seed.sql"
+    2. Create System
+        2.1. db.js
+            * Define and export the connection
+        2.2. server.js
+            * Start the connection and call "init()"
+            * "init" function should present the obtions:
+                * Add
+                    * Department
+                    * Roles
+                    * Employees
+                * View
+                    * Department
+                    * Roles
+                    * Employees
+                * Update
+                    * Roles
+                * Exit
+            * Implement functions
+                * addDepartment()
+                * addRole()
+                * addEmployee()
+                * viewDepartment()
+                * viewRole()
+                * viewEmployee()
+                * updateRole()
+                * exit()
+                    //close the connection
+                    //finish the execution
+    3. Submission
+        * GitHub Repository
+        * Video demonstrating the app's functions
