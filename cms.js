@@ -77,27 +77,6 @@ function cmsStart() {
     })
 };
 
-
-// INSERT (Add) into Table Functions
-function addDepart(response) {
-    connection.query("INSERT INTO department SET ?", { name: response.depart },
-        function (err, res) {
-            if (err) throw err;
-            console.log("New department Added " + response.depart);
-        }
-    );
-}
-
-function addRole(response) {
-    connection.query(
-        "INSERT INTO role SET ?", { title: response.role, },
-        function (err, res) {
-            if (err) throw err;
-            console.log("New role Added" + response.role);
-        }
-    );
-}
-
 function addHR(response) {
     console.log("NOTE: If you chose to 'ADD EMPLOYEE' you will be provided with choices for 'DEPARTMENT' & 'ROLE'.")
     inquirer.prompt([
@@ -116,12 +95,15 @@ function addHR(response) {
         switch (response.addSelect) {
 
             case ("ADD DEPARTMENT"):
+                console.log("Depart")
                 break;
 
             case ("ADD ROLE"):
+                console.log("Role")
                 break;
 
             case ("ADD EMPLOYEE"):
+                console.log("Employee")
                 break;
 
             case ("FINISH"):
@@ -147,3 +129,25 @@ function viewAllEmployees() {
         cmsStart();
     });
 }
+
+// INSERT (Add) into Table Functions
+function addDepart(response) {
+    connection.query("INSERT INTO department SET ?", { name: response.depart },
+        function (err, res) {
+            if (err) throw err;
+            console.log("New department Added " + response.depart);
+        }
+    );
+}
+
+function addRole(response) {
+    connection.query(
+        "INSERT INTO role SET ?", { title: response.role, },
+        function (err, res) {
+            if (err) throw err;
+            console.log("New role Added" + response.role);
+        }
+    );
+}
+
+
