@@ -1,32 +1,29 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
+const addQuest = require("./QuestionSets/addQuestions")
 // const insertSQL = require("./SQLqueries/insertSQL");
 // const selectSQL = require("./SQLqueries/selectSQL");
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "HiAll08",
-    database: "seed_db"
-});
-
-connection.connect(function (err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId + "\n");
+function init() {
+    titleDisplay();
     cmsStart();
-});
+}
 
-//Testing to see how to get info to show in inquirer
-function cmsStart() {
+init();
+
+function titleDisplay () {
     console.log(`
     ---------------------------
     |     TMS HR SOLUTIONS    |
     ---------------------------`);
+}
+
+//Testing to see how to get info to show in inquirer
+function cmsStart() {
     inquirer.prompt([
         {
-            message: "What would you like to do?",
+            message: "HOW WOULD YOU LIKE TO PROCEED?",
             type: "rawlist",
             name: "startSelect",
             choices: [
@@ -43,7 +40,7 @@ function cmsStart() {
         switch (response.startSelect) {
 
             case ("CREATE NEW EMPLOYEE"):
-                addHR();
+                addQuest.addHR();
                 break;
 
             case ("VIEW CURRENT EMPLOYEES"):
@@ -60,50 +57,6 @@ function cmsStart() {
                 break;
 
             case ("DELETE EMPLOYEE"):
-                break;
-
-            case ("FINISH"):
-                connection.end();
-                process.exit();
-                break;
-
-            default:
-                console.log("not valid selection");
-                connection.end()
-                process.exit()
-                break;
-
-        }
-    })
-};
-
-function addHR(response) {
-    console.log("NOTE: If you chose to 'ADD EMPLOYEE' you will be provided with choices for 'DEPARTMENT' & 'ROLE'.")
-    inquirer.prompt([
-        {
-            message: "WHAT HR ELEMENT WOULD YOU LIKE TO ADD?",
-            type: "rawlist",
-            name: "addSelect",
-            choices: [
-                "ADD DEPARTMENT",
-                "ADD ROLE",
-                "ADD EMPLOYEE",
-                "FINISH"
-            ]
-        }
-    ]).then(function (response) {
-        switch (response.addSelect) {
-
-            case ("ADD DEPARTMENT"):
-                console.log("Depart")
-                break;
-
-            case ("ADD ROLE"):
-                console.log("Role")
-                break;
-
-            case ("ADD EMPLOYEE"):
-                console.log("Employee")
                 break;
 
             case ("FINISH"):
@@ -150,4 +103,4 @@ function addRole(response) {
     );
 }
 
-
+module.exports.cmsStart = cmsStart; //Create own file once done
