@@ -1,20 +1,6 @@
 const inquirer = require("inquirer");
 const cms = require("../cms");
-const mysql = require("mysql");
 const connection = require("../db/connectDB");
-
-// const connection = mysql.createConnection({
-//     host: "localhost",
-//     port: 3306,
-//     user: "root",
-//     password: "HiAll08",
-//     database: "seed_db"
-// });
-
-// connection.connect(function (err) {
-//     if (err) throw err;
-//     console.log("connected as id " + connection.threadId + "\n");
-// });
 
 function addHR(response) {
     console.log("NOTE: If you chose to 'ADD EMPLOYEE' you will be provided with choices for 'DEPARTMENT' & 'ROLE'.")
@@ -84,6 +70,8 @@ function addDepart() {
         );
     })
 }
+
+
 
 //Module export functions
 module.exports = {

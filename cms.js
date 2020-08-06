@@ -2,22 +2,18 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const addQuest = require("./QuestionSets/addQuestions")
+const connection = require("./db/connectDB");
 // const insertSQL = require("./SQLqueries/insertSQL");
 // const selectSQL = require("./SQLqueries/selectSQL");
 
 function init() {
-    titleDisplay();
-    cmsStart();
-}
-
-init();
-
-function titleDisplay () {
     console.log(`
     ---------------------------
     |     TMS HR SOLUTIONS    |
     ---------------------------`);
+    cmsStart();
 }
+init();
 
 //Testing to see how to get info to show in inquirer
 function cmsStart() {
@@ -48,6 +44,7 @@ function cmsStart() {
                 break;
 
             case ("VIEW CURRENT DEPARTMENTS"):
+                viewAllDeparts();
                 break;
 
             case ("VIEW CURRENT ROLES"):
@@ -81,17 +78,17 @@ function viewAllEmployees() {
         await console.table(res);
         cmsStart();
     });
+};
+
+function viewAllDeparts() {
+    connection.query("SELECT * FROM department", async function (err, res) {
+        if (err) throw err;
+        await console.table(res);
+        cmsStart();
+    });
 }
 
 // INSERT (Add) into Table Functions
-function addDepart(response) {
-    connection.query("INSERT INTO department SET ?", { name: response.depart },
-        function (err, res) {
-            if (err) throw err;
-            console.log("New department Added " + response.depart);
-        }
-    );
-}
 
 function addRole(response) {
     connection.query(
