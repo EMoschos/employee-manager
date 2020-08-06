@@ -1,37 +1,73 @@
-const mysql = require("mysql");
+//Currently not in USE 7/08/20
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "HiAll08",
-    database: "seed_db"
-});
+const connection = require("../db/connectDB");
+const inquirer = require("inquirer");
 
-function addDepart(response) {
-    connection.query(
-        "INSERT INTO department SET ?",
+function addDepart() {
+    inquirer.prompt([
         {
-            name: response.depart,
-        },
-        function (err, res) {
-            if (err) throw err;
-            console.log("New department Added");
+            name: "newDepart",
+            type: "input",
+            message: "ENTER NAME OF NEW DEPARTMENT"
         }
-    );
+    ]).then(function (response) {
+        connection.query("INSERT INTO department SET ?", { name: response.newDepart },
+            function (err, res) {
+                if (err) throw err;
+                console.log("New department Added " + response.newDepart);
+            }
+        );
+    })
 }
 
-function addRole(response) {
-    connection.query(
-        "INSERT INTO role SET ?",
-        {
-            title: response.role,
-        },
-        function (err, res) {
-            if (err) throw err;
-            console.log("New role Added" + res);
+async function addRole() {
+    let departName = [];
+    let departInfo = [];
+    connection.query("SELECT * FROM department", function (err, data) {
+        for (let i = 0; i < data.length; i++) {
+            departName.push(data[i].name);
+            departInfo.push(data[i]);
         }
-    );
+        inquirer.prompt([
+            {
+                message: "WHAT DEPARTMENT DOES THE ROLE BELONG TO?",
+                type: "rawlist",
+                name: "departSelect",
+                choices: departName
+            },
+            {
+                name: "newRole",
+                type: "input",
+                message: "ENTER NAME OF ROLE"
+            },
+            {
+                name: "newSalary",
+                type: "input",
+                message: "ENTER SALARY AMOUNT OF ROLE"
+            }
+        ]).then(function (response) {
+            let departID;
+            for (let i = 0; i < departInfo.length; i++) {
+                if (response.departSelect === departInfo[i].name) {
+                    departID = departInfo[i].id
+                    console.log(departID);
+                }
+            }
+           
+            connection.query("INSERT INTO role SET ?",
+                {
+                    title: response.newRole,
+                    salary: response.newSalary,
+                    department_id: departID,
+                },
+                function (err, res) {
+                    if (err) throw err;
+                    console.log("New role Added" + res);
+                }
+            );
+        })
+    });
+
 }
 
 function addEmployee(response) {
@@ -49,7 +85,8 @@ function addEmployee(response) {
     );
 }
 
-module.exports = { 
-    addDepart, 
-    addRole, 
-    addEmployee };
+module.exports = {
+    addDepart,
+    addRole,
+    addEmployee
+};

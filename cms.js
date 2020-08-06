@@ -2,6 +2,7 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const addQuest = require("./QuestionSets/addQuestions")
+const viewQuest = require("./QuestionSets/viewQuestions")
 const connection = require("./db/connectDB");
 // const insertSQL = require("./SQLqueries/insertSQL");
 // const selectSQL = require("./SQLqueries/selectSQL");
@@ -23,7 +24,7 @@ function cmsStart() {
             type: "rawlist",
             name: "startSelect",
             choices: [
-                "CREATE NEW EMPLOYEE",
+                "CREATE NEW HR ELEMENT",
                 "VIEW CURRENT EMPLOYEES",
                 "VIEW CURRENT DEPARTMENTS",
                 "VIEW CURRENT ROLES",
@@ -35,19 +36,20 @@ function cmsStart() {
     ]).then(function (response) {
         switch (response.startSelect) {
 
-            case ("CREATE NEW EMPLOYEE"):
+            case ("CREATE NEW HR ELEMENT"):
                 addQuest.addHR();
                 break;
 
             case ("VIEW CURRENT EMPLOYEES"):
-                viewAllEmployees();
+                viewQuest.viewAllEmployees();
                 break;
 
             case ("VIEW CURRENT DEPARTMENTS"):
-                viewAllDeparts();
+                viewQuest.viewAllDeparts();
                 break;
 
             case ("VIEW CURRENT ROLES"):
+                viewQuest.viewAllRoles();
                 break;
 
             case ("UPDATE EMPLOYEE ROLE"):

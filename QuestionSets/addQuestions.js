@@ -1,8 +1,9 @@
+const connection = require("../db/connectDB");
 const inquirer = require("inquirer");
 const cms = require("../cms");
-const connection = require("../db/connectDB");
+// const insertSQL = require("../SQLqueries/insertSQL");
 
-function addHR(response) {
+function addHR() {
     console.log("NOTE: If you chose to 'ADD EMPLOYEE' you will be provided with choices for 'DEPARTMENT' & 'ROLE'.")
     inquirer.prompt([
         {
@@ -27,6 +28,7 @@ function addHR(response) {
 
             case ("ADD ROLE"):
                 console.log("Role")
+                addRole();
                 break;
 
             case ("ADD EMPLOYEE"):
@@ -53,6 +55,7 @@ function addHR(response) {
     })
 };
 
+//Add Functions for each HR Element
 function addDepart() {
     inquirer.prompt([
         {
@@ -71,7 +74,71 @@ function addDepart() {
     })
 }
 
+function addRole() {
+    let departName = [];
+    let departInfo = [];
+    connection.query("SELECT * FROM department", function (err, data) {
+        for (let i = 0; i < data.length; i++) {
+            departName.push(data[i].name);
+            departInfo.push(data[i]);
+        }
+        inquirer.prompt([
+            {
+                message: "WHAT DEPARTMENT DOES THE ROLE BELONG TO?",
+                type: "rawlist",
+                name: "departSelect",
+                choices: departName
+            },
+            {
+                name: "newRole",
+                type: "input",
+                message: "ENTER NAME OF ROLE"
+            },
+            {
+                name: "newSalary",
+                type: "input",
+                message: "ENTER SALARY AMOUNT OF ROLE"
+            }
+        ]).then(function (response) {
+            let departID;
+            for (let i = 0; i < departInfo.length; i++) {
+                if (response.departSelect === departInfo[i].name) {
+                    departID = departInfo[i].id
+                    console.log(departID);
+                }
+            }
+           
+            connection.query("INSERT INTO role SET ?",
+                {
+                    title: response.newRole,
+                    salary: response.newSalary,
+                    department_id: departID,
+                },
+                function (err, res) {
+                    if (err) throw err;
+                    console.log("New role Added" + res.title);
+                    addHR();
+                }
+            );
+        })
+    });
+};
 
+//Still need to make it work
+function addEmployee(response) {
+    connection.query(
+        "INSERT INTO employee SET ?",
+        {
+            first_name: response.nameFirst,
+            last_name: response.nameLast,
+        },
+        function (err, res) {
+            if (err) throw err;
+            console.log("New Empliyee Added" + res);
+            connection.end();
+        }
+    );
+}
 
 //Module export functions
 module.exports = {
