@@ -92,14 +92,4 @@ function viewAllDeparts() {
 
 // INSERT (Add) into Table Functions
 
-function addRole(response) {
-    connection.query(
-        "INSERT INTO role SET ?", { title: response.role, },
-        function (err, res) {
-            if (err) throw err;
-            console.log("New role Added" + response.role);
-        }
-    );
-}
-
 module.exports.cmsStart = cmsStart; //Create own file once done

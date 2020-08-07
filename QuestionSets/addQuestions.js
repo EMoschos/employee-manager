@@ -79,7 +79,7 @@ function addRole() {
     let departInfo = [];
     connection.query("SELECT * FROM department", function (err, data) {
         for (let i = 0; i < data.length; i++) {
-            departName.push(data[i].name);
+            departName.push(data[i].depart);
             departInfo.push(data[i]);
         }
         inquirer.prompt([
@@ -102,7 +102,7 @@ function addRole() {
         ]).then(function (response) {
             let departID;
             for (let i = 0; i < departInfo.length; i++) {
-                if (response.departSelect === departInfo[i].name) {
+                if (response.departSelect === departInfo[i].depart) {
                     departID = departInfo[i].id
                     console.log(departID);
                 }
@@ -134,7 +134,7 @@ function addEmployee(response) {
         },
         function (err, res) {
             if (err) throw err;
-            console.log("New Empliyee Added" + res);
+            console.log("New Employee Added" + res);
             connection.end();
         }
     );
