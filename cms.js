@@ -4,8 +4,6 @@ const addQuest = require("./QuestionSets/addQuestions")
 const viewQuest = require("./QuestionSets/viewQuestions")
 const updateQuest = require("./QuestionSets/updateQuestions")
 const connection = require("./db/connectDB");
-// const insertSQL = require("./SQLqueries/insertSQL");
-// const selectSQL = require("./SQLqueries/selectSQL");
 
 function init() {
     console.log(`
@@ -44,9 +42,6 @@ function cmsStart() {
 
             case ("UPDATE EMPLOYEE ROLE"):
                 updateQuest.updateHR()
-                break;
-
-            case ("DELETE EMPLOYEE"):
                 break;
 
             case ("FINISH"):
