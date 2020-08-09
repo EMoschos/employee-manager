@@ -56,7 +56,8 @@ function addDepart() {
         {
             name: "newDepart",
             type: "input",
-            message: "ENTER NAME OF NEW DEPARTMENT"
+            message: "ENTER NAME OF NEW DEPARTMENT",
+            validate: validName
         }
     ]).then(function (response) {
         connection.query("INSERT INTO department SET ?", { depart: response.newDepart },
@@ -88,12 +89,14 @@ function addRole() {
             {
                 name: "newRole",
                 type: "input",
-                message: "ENTER NAME OF ROLE"
+                message: "ENTER NAME OF ROLE",
+                validate: validName
             },
             {
                 name: "newSalary",
                 type: "input",
-                message: "ENTER SALARY AMOUNT OF ROLE"
+                message: "ENTER SALARY AMOUNT OF ROLE",
+                validate: validSalary
             }
         ]).then(function (response) {
             let departID;
@@ -164,12 +167,14 @@ async function addEmployeeAsync() {
         {
             name: "firstName",
             type: "input",
-            message: "WHAT IS THE EMPLOYEES FIRST NAME"
+            message: "WHAT IS THE EMPLOYEES FIRST NAME",
+            validate: validName
         },
         {
             name: "lastName",
             type: "input",
-            message: "WHAT IS THE EMPLOYEES LAST NAME"
+            message: "WHAT IS THE EMPLOYEES LAST NAME",
+            validate: validName
         },
         {
             message: "WHO IS THE EMPLOYEES MANAGER?",
@@ -207,6 +212,22 @@ async function addEmployeeAsync() {
     })
 }
 
+// Inquirer Validation
+const validName = async (input) => {
+    if (!/[1-9`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi.test(input)) {
+        return true;
+    } else {
+        console.log("\n" + "incorrect input, numbers and characters can't be included in the name")
+    }
+};
+
+const validSalary = async (input) => {
+    if (input.length > 4 && input > 9999) {
+        return true;
+    } else {
+        console.log("\n" + "incorrect input, needs to be a 5 numbers long");
+    }
+}
 
 //Module export functions
 module.exports = {
