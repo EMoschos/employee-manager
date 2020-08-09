@@ -27,7 +27,7 @@
 
   ```
   ▶️ 
-  run node cms.js => then you will be prompted with choices to add, view or update HR elements.  The app is intuitive so all you need to do is follow the prompts and make selections by using the up and down arrows on the keypad and pressing enter and if prompted for input, simply type required name or text  and press enter.  Its that simple.
+  run node cms.js => then you will be prompted with choices to add, view or update HR elements.  The app is intuitive so all you need to do is follow the prompts and make selections by using the up and down arrows on the keypad and pressing enter and if prompted for input, simply type required name or text and press enter.  Its that simple as their are validation requirements when inputting to ensure you don't get it wrong.
   ```
  ![CMS in Action](./Assets/cmsStart.PNG)
  ![CMS in Action](./Assets/allHRView.PNG)
