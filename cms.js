@@ -25,7 +25,6 @@ function cmsStart() {
                 "CREATE NEW HR ELEMENT",
                 "VIEW HR ELEMENTS",
                 "UPDATE EMPLOYEE ROLE",
-                "DELETE EMPLOYEE",
                 "FINISH"
             ]
         }

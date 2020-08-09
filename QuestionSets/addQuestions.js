@@ -62,7 +62,7 @@ function addDepart() {
         connection.query("INSERT INTO department SET ?", { depart: response.newDepart },
             function (err, res) {
                 if (err) throw err;
-                console.log("New department Added " + response.newDepart);
+                console.log("New department Added");
                 addHR();
             }
         );
@@ -99,10 +99,9 @@ function addRole() {
             let departID;
             for (let i = 0; i < departInfo.length; i++) {
                 if (response.departSelect === departInfo[i].depart) {
-                    departID = departInfo[i].id
-                    console.log(departID);
-                }
-            }
+                    departID = departInfo[i].id;
+                };
+            };
             connection.query("INSERT INTO role SET ?",
                 {
                     title: response.newRole,
@@ -111,7 +110,7 @@ function addRole() {
                 },
                 function (err, res) {
                     if (err) throw err;
-                    console.log("New role Added" + res.title);
+                    console.log("New role Added");
                     addHR();
                 }
             );
@@ -127,10 +126,10 @@ async function getRoleInfoAsync() {
 
 async function getRoleNameAsync() {
     let roleName = [];
-    let data = await getRoleInfoAsync()
+    let data = await getRoleInfoAsync();
     for (let i = 0; i < data.length; i++) {
         roleName.push(data[i].title);
-    }
+    };
     return roleName;
 }
 
@@ -144,7 +143,7 @@ async function getManagerNameAsync() {
     let mInfo = await getManagerAsync();
     for (let i = 0; i < mInfo.length; i++) {
         managerName.push(mInfo[i].first_name + " " + mInfo[i].last_name);
-    }
+    };
     return managerName;
 }
 
@@ -153,8 +152,8 @@ async function getManagerNameAsync() {
 async function addEmployeeAsync() {
     let roleName = await getRoleNameAsync();
     let roleInfo = await getRoleInfoAsync();
-    let managerName = await getManagerNameAsync()
-    let managerInfo = await getManagerAsync()
+    let managerName = await getManagerNameAsync();
+    let managerInfo = await getManagerAsync();
     inquirer.prompt([
         {
             message: "WHAT IS THE EMPLOYEES ROLE?",
@@ -184,18 +183,14 @@ async function addEmployeeAsync() {
         for (let i = 0; i < roleInfo.length; i++) {
             if (response.roleSelect === roleInfo[i].title) {
                 roleID = roleInfo[i].id
-                console.log(roleID);
-            }
+            };
         };
         for (let i = 0; i < managerName.length; i++) {
             if (response.managerSelect === (managerInfo[i].first_name + " " + managerInfo[i].last_name)) {
                 managerID = managerInfo[i].id;
                 console.log("Manager Selected with ID: " + managerID)
-            } else {
-                console.log("No Maanager Selected for the Employee")
-            }
+            };
         };
-        console.log(managerInfo)
         connection.query("INSERT INTO employee SET ?",
             {
                 first_name: response.firstName,
@@ -204,7 +199,6 @@ async function addEmployeeAsync() {
                 manager_id: managerID
             },
             function (err, res) {
-                console.log(res)
                 if (err) throw err;
                 console.log("New employee added");
                 addHR();
